@@ -7,7 +7,7 @@ function Square(props) {
         <button className="square" 
                 onClick={props.onClick}>
             {props.value}
-            </button>
+        </button>
     );
 }
 
@@ -85,19 +85,27 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
-            const desc = move ?
-                'Go to move #' + move :
-                'Go to game start';
+            let desc;
 
-                return (
-                    <li key={move}>
-                        <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                    </li>
-                )
-        })
+            if (move) {
+                const previousSquares = history[move - 1].squares.slice();
+                const currentSquares = history[move].squares.slice();
+                
+                const previousIndex = calculateIndexChanged(currentSquares, previousSquares);
+                desc = 'Go to move #' + move + ' (X:' + previousIndex%3 + ', Y:' + Math.floor(previousIndex/3) + ')';
+            } else {
+                desc = 'Go to game start.';
+            }
+
+            return (
+                <li key={move}>
+                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                </li>
+            )
+        });
 
         let status;
-        if(winner) {
+        if (winner) {
             status = 'Winner: ' + winner;
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
@@ -116,8 +124,8 @@ class Game extends React.Component {
             <ol>{moves}</ol>
             </div>
             </div>
-    );
-}
+        );
+    }
 }
 
 function calculateWinner(squares) {
@@ -139,6 +147,16 @@ function calculateWinner(squares) {
     }
 
     return null;
+}
+
+function calculateIndexChanged(previousSquares, squares) {
+    for (let i = 0; i < previousSquares.length; i++) {
+        if (previousSquares[i] != squares[i]) {
+            return i;
+        }
+    }
+
+    return -1;
 }
 
 // ========================================
