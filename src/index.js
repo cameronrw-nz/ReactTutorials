@@ -149,9 +149,9 @@ function calculateWinner(squares) {
     return null;
 }
 
-function calculateIndexChanged(previousSquares, squares) {
-    for (let i = 0; i < previousSquares.length; i++) {
-        if (previousSquares[i] != squares[i]) {
+function calculateIndexChanged(currentSquares, previousSquares) {
+    for (let i = 0; i < currentSquares.length; i++) {
+        if (currentSquares[i] != previousSquares[i]) {
             return i;
         }
     }
