@@ -6,7 +6,7 @@ function Square(props) {
     return (
         <button className="square" 
                 onClick={props.onClick}
-                style={props.isPreviouslyChangedIndex  ? {fontWeight: 'bold'} : {fontWeight: 'normal'}}>
+                style={props.isLatestMove  ? {fontWeight: 'bold'} : {fontWeight: 'normal'}}>
             {props.value}
         </button>
     );
@@ -17,27 +17,29 @@ class Board extends React.Component {
         return <Square 
                     value={this.props.squares[i]}
                     onClick={() => this.props.onClick(i)}
-                    isPreviouslyChangedIndex={i === this.props.previouslyChangedIndex}/>;
+                    isLatestMove={i === this.props.changedIndex}/>;
+    }
+
+    createBoard() {
+        let board = [];
+
+        for (let row = 0; row < 3; row++) {
+            let children = [];
+
+            for (let column = 0; column < 3; column++) {
+                children.push(this.renderSquare((row*3)+column));
+            }
+
+            board.push(<div className="board-row">{children}</div>);
+        }
+
+        return board;
     }
 
     render() {
         return (
         <div>
-            <div className="board-row">
-                {this.renderSquare(0)}
-                {this.renderSquare(1)}
-                {this.renderSquare(2)}
-            </div>
-            <div className="board-row">
-                {this.renderSquare(3)}
-                {this.renderSquare(4)}
-                {this.renderSquare(5)}
-            </div>
-            <div className="board-row">
-                {this.renderSquare(6)}
-                {this.renderSquare(7)}
-                {this.renderSquare(8)}
-            </div>
+            {this.createBoard()}
         </div>
         );
     }
@@ -124,7 +126,7 @@ class Game extends React.Component {
             <Board 
                 squares={current.squares}
                 onClick={(i) => this.handleClick(i)}
-                previouslyChangedIndex={changedIndex}
+                changedIndex={changedIndex}
             />
             </div>
             <div className="game-info">
