@@ -5,7 +5,8 @@ import './index.css';
 function Square(props) {
     return (
         <button className="square" 
-                onClick={props.onClick}>
+                onClick={props.onClick}
+                style={props.isPreviouslyChangedIndex  ? {fontWeight: 'bold'} : {fontWeight: 'normal'}}>
             {props.value}
         </button>
     );
@@ -15,7 +16,8 @@ class Board extends React.Component {
     renderSquare(i) {
         return <Square 
                     value={this.props.squares[i]}
-                    onClick={() => this.props.onClick(i)}/>;
+                    onClick={() => this.props.onClick(i)}
+                    isPreviouslyChangedIndex={i === this.props.previouslyChangedIndex}/>;
     }
 
     render() {
@@ -84,6 +86,11 @@ class Game extends React.Component {
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
 
+        let changedIndex = 0;
+        if (this.state.stepNumber > 0) {
+            changedIndex = calculateIndexChanged(current.squares, history[this.state.stepNumber-1].squares);
+        }
+
         const moves = history.map((step, move) => {
             let desc;
 
@@ -117,6 +124,7 @@ class Game extends React.Component {
             <Board 
                 squares={current.squares}
                 onClick={(i) => this.handleClick(i)}
+                previouslyChangedIndex={changedIndex}
             />
             </div>
             <div className="game-info">
