@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 // The Header creates links that can be used to navigate
 // between routes.
-const Header = () => (
+const Navigator = () => (
   <header>
     <nav>
       <ul>
@@ -14,4 +14,4 @@ const Header = () => (
   </header>
 )
 
-export default Header
+export default Navigator

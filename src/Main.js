@@ -1,7 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import Home from './Home'
-import TicTacToe from './TicTacToe'
+import Home from './MainDisplay/Home'
+import TicTacToe from './MainDisplay/TicTacToe'
+import DateString from './Common/DateString'
 
 const Main = () => (
   <main>
@@ -9,6 +10,7 @@ const Main = () => (
         <Route exact path='/' component={Home} />
         <Route path='/tictactoe' component={TicTacToe} />
     </Switch>
+    <DateString />
   </main>
 )
 
