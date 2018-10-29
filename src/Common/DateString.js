@@ -12,7 +12,7 @@ class DateString extends React.Component {
         this.interval = setInterval(() => this.setState({ time: Date().toLocaleString() }), 1000);
       }
 
-      componentWillUnmount() {
+    componentWillUnmount() {
         clearInterval(this.interval);
       }
 

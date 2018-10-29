@@ -19,6 +19,9 @@ class Navigator extends React.Component {
         <NavItem className="nav-item nav-link" eventKey="1" href="/tictactoe">
           Tic Tac Toe Game
         </NavItem>
+        <NavItem className="nav-item nav-link" eventKey="1" href="/product">
+          Product
+        </NavItem>
       </Nav>
     );
   }
