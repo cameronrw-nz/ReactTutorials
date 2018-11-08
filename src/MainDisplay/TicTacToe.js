@@ -11,6 +11,38 @@ function Square(props) {
     );
 }
 
+function calculateWinner(squares) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    for (let i=0; i < lines.length; i++){
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return lines[i];
+        }
+    }
+
+    return null;
+}
+
+function calculateIndexChanged(currentSquares, previousSquares) {
+    for (let i = 0; i < currentSquares.length; i++) {
+        if (currentSquares[i] !== previousSquares[i]) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
 class Board extends React.Component {
     renderSquare(i, isHighlightedMove) {
         return <Square 
@@ -141,55 +173,26 @@ class TicTacToe extends React.Component {
         }
 
         return (
-        <div className="game">
-            <div className="game-board">
-                <Board 
-                    squares={current.squares}
-                    onClick={(i) => this.handleClick(i)}
-                    changedIndex={changedIndex} 
-                    winningIndexes={winningIndexes}/>
+            <div>
+            <h1>Tic-Tac-Toe</h1>
+                <div className="game">
+                    <div className="game-board">
+                        <Board 
+                            squares={current.squares}
+                            onClick={(i) => this.handleClick(i)}
+                            changedIndex={changedIndex} 
+                            winningIndexes={winningIndexes}/>
+                    </div>
+                    <div className="game-info">
+                        
+                        <div>{status}</div>
+                        <button onClick={() => this.handleMoveSorting()}>Sort</button>
+                        <ol>{moves}</ol>
+                    </div>
+                </div>
             </div>
-            <div className="game-info">
-                
-                <div>{status}</div>
-                <button onClick={() => this.handleMoveSorting()}>Sort</button>
-                <ol>{moves}</ol>
-            </div>
-        </div>
         );
     }
-}
-
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-
-    for (let i=0; i < lines.length; i++){
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return lines[i];
-        }
-    }
-
-    return null;
-}
-
-function calculateIndexChanged(currentSquares, previousSquares) {
-    for (let i = 0; i < currentSquares.length; i++) {
-        if (currentSquares[i] !== previousSquares[i]) {
-            return i;
-        }
-    }
-
-    return -1;
 }
 
 export default TicTacToe

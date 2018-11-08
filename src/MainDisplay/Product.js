@@ -3,9 +3,10 @@ import React from 'react';
 function ProductRow(props) {
     return (
         <tr>
-            <p>{props.product.ProductId}</p>
-            <p>{props.product.ProductName}</p>
-            <p>{props.product.Price}</p>
+            <td>{props.product.ProductId}</td>
+            <td>{props.product.ProductName}</td>
+            <td>{props.product.Price}</td>
+            <td>{props.product.Category}</td>
         </tr>
     );
 }
@@ -16,7 +17,6 @@ class Product extends React.Component {
 
         this.state =  {
             "products": [
-                { "ProductId": 1, "ProductName": "Jon Hilton", "Price": "36 / Lead Developer" },
             ]
         };
     }
@@ -24,14 +24,8 @@ class Product extends React.Component {
     async componentDidMount() {
         const result = await fetch('http://aspwebapi/api/products');
         const products = await result.json();
-        console.log(products);
-
-        console.log(this.state.products);
         this.setState({ products });
-        console.log(this.state.products);
     }
-
-
 
     render() {
         return (
@@ -39,8 +33,13 @@ class Product extends React.Component {
                 <h1>My Products</h1>
                 <table className="product-list">
                     <tbody>
-                        {this.state.products.map(product => 
-                            <ProductRow key={product.id} product={product} />)}
+                        <tr>
+                            <td>Product Id</td>
+                            <td>Product Name</td>
+                            <td>Product Price</td>
+                            <td>Category</td>
+                        </tr>
+                        {this.state.products.map(product => <ProductRow key={product.id} product={product} />)}
                     </tbody>
                 </table>
             </div>
