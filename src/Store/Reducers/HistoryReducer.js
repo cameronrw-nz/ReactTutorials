@@ -13,7 +13,7 @@ const historyReducer = function(state = initialState, action) {
             return Object.assign({}, state, {});
 
         case types.ADD_SQUARES_TO_HISTORY:
-        var newHistory = state.history.concat([{
+        var newHistory = action.history.concat([{
             squares: action.squares,
         }]);
         var x = Object.assign({}, state, { history: newHistory });

@@ -62,7 +62,8 @@ class TicTacToe extends React.Component {
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         store.dispatch({
             type: types.ADD_SQUARES_TO_HISTORY,
-            squares: squares 
+            squares: squares,
+            history: history
           });
         this.setState({
             stepNumber: history.length,
