@@ -1,4 +1,5 @@
 import React from 'react';
+import AddPlayer from './Player';
 
 function GameInfo(props) {
     return (
@@ -6,6 +7,7 @@ function GameInfo(props) {
             <div>{props.status}</div>
             <button onClick={props.onMoveSorting}>Sort</button>
             <ol>{props.moves}</ol>
+            <AddPlayer visibility={props.hasWinner}/>
         </div>
     );
 }

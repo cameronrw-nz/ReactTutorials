@@ -121,14 +121,18 @@ class TicTacToe extends React.Component {
         });
         
         let status;
+        let hasWinner;
         if (winningIndexes == null && this.state.stepNumber === 9)
         {
             status = 'The game was a draw!'
+            hasWinner = false;
         }
         else if (winner) {
             status = 'Winner: ' + winner;
+            hasWinner = false;
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            hasWinner = true;
         }
 
         return (
@@ -144,7 +148,8 @@ class TicTacToe extends React.Component {
                     <GameInfo
                             status={status}
                             onMoveSorting={() => this.handleMoveSorting()}
-                            moves={moves}/>
+                            moves={moves}
+                            hasWinner={hasWinner}/>
                 </div>
             </div>
         );
