@@ -1,15 +1,11 @@
 import React from 'react';
-import '../styles/TicTacToe.css';
+import GameInfo from './GameInfo';
+import GameBoard from './GameBoard';
+import { connect } from 'react-redux';
+import store from '../../Store/ReduxStore'
+import '../../styles/TicTacToe.css';
+import * as types from '../../Store/ActionTypes'
 
-function Square(props) {
-    return (
-        <button className="square" 
-                onClick={props.onClick}
-                style={props.isHighlightedMove ? {fontWeight: 'bold'} : {fontWeight: 'normal'}}>
-            {props.value}
-        </button>
-    );
-}
 
 function calculateWinner(squares) {
     const lines = [
@@ -43,50 +39,11 @@ function calculateIndexChanged(currentSquares, previousSquares) {
     return -1;
 }
 
-class Board extends React.Component {
-    renderSquare(i, isHighlightedMove) {
-        return <Square 
-                    value={this.props.squares[i]}
-                    onClick={() => this.props.onClick(i)}
-                    isHighlightedMove={isHighlightedMove}/>;
-    }
-
-    createBoard() {
-        let board = [];
-
-        for (let row = 0; row < 3; row++) {
-            let children = [];
-
-            for (let column = 0; column < 3; column++) {
-                const squareIndex = row*3 + column;
-                let isHighlightedMove = squareIndex === this.props.changedIndex || (this.props.winningIndexes != null && this.props.winningIndexes.includes(squareIndex));
-
-                children.push(this.renderSquare(squareIndex, isHighlightedMove));
-            }
-
-            board.push(<div className="board-row">{children}</div>);
-        }
-
-        return board;
-    }
-
-    render() {
-        return (
-        <div>
-            {this.createBoard()}
-        </div>
-        );
-    }
-}
-
 class TicTacToe extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            history: [{
-                squares: Array(9).fill(null),
-            }],
             stepNumber: 0,
             xIsNext: true,
             sortedAscending: true
@@ -94,7 +51,7 @@ class TicTacToe extends React.Component {
     }
 
     handleClick(i) {
-        const history = this.state.history.slice(0, this.state.stepNumber + 1);
+        const history = this.props.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
 
@@ -103,10 +60,11 @@ class TicTacToe extends React.Component {
         }
 
         squares[i] = this.state.xIsNext ? 'X' : 'O';
+        store.dispatch({
+            type: types.ADD_SQUARES_TO_HISTORY,
+            squares: squares 
+          });
         this.setState({
-            history: history.concat([{
-                squares: squares,
-            }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext});
     }
@@ -125,7 +83,7 @@ class TicTacToe extends React.Component {
     }
 
     render() {
-        const history = this.state.history;
+        const history = this.props.history;
         const current = history[this.state.stepNumber];
         const winningIndexes = calculateWinner(current.squares);
         const sortedHistory = this.state.sortedAscending ? history.slice() : history.slice().reverse();
@@ -174,25 +132,28 @@ class TicTacToe extends React.Component {
 
         return (
             <div>
-            <h1>Tic-Tac-Toe</h1>
+                <h1>Tic-Tac-Toe</h1>
                 <div className="game">
-                    <div className="game-board">
-                        <Board 
-                            squares={current.squares}
-                            onClick={(i) => this.handleClick(i)}
-                            changedIndex={changedIndex} 
-                            winningIndexes={winningIndexes}/>
-                    </div>
-                    <div className="game-info">
-                        
-                        <div>{status}</div>
-                        <button onClick={() => this.handleMoveSorting()}>Sort</button>
-                        <ol>{moves}</ol>
-                    </div>
+                    <GameBoard 
+                        squares={current.squares}
+                        onClick={(i) => this.handleClick(i)}
+                        changedIndex={changedIndex} 
+                        winningIndexes={winningIndexes}/>
+                    
+                    <GameInfo
+                            status={status}
+                            onMoveSorting={() => this.handleMoveSorting()}
+                            moves={moves}/>
                 </div>
             </div>
         );
     }
 }
 
-export default TicTacToe
+const mapStateToProps = function(store) {
+    return {
+      history: store.historyState.history
+    };
+  }
+
+export default connect(mapStateToProps)(TicTacToe)

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import Home from './MainDisplay/Home'
-import TicTacToe from './MainDisplay/TicTacToe'
-import Product from './MainDisplay/Product'
-import DateString from './Common/DateString'
-import './styles/index.css';
+import Home from './Home/Home'
+import TicTacToe from './TicTacToe/TicTacToe'
+import Product from './Product/Product'
+import DateString from '../Common/DateString'
+import '../styles/index.css';
 
 const Main = () => (
   <main className="mainContent">
