@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import axios from 'axios';
 
 class AddPlayer extends React.Component {
@@ -8,15 +8,22 @@ class AddPlayer extends React.Component {
         this.state = {
             playerName: ""
         }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleAddPlayer = this.handleAddPlayer.bind(this);
     }
     
+    handleChange(event) {
+        this.setState({ playerName: event.target.value});
+    }
+
     handleAddPlayer(event) {
         event.preventDefault()
-        //return axios.post('http://localhost:3001/users/' + userId)
-        //    .then(response => {
-        //        store.dispatch(deleteUserSuccess(userId));
-        //    return response;
-        //    });
+        return axios.put('http://localhost:59248/api/Players?userName=' + this.state.playerName);
+            //.then(response => {
+            //    store.dispatch(deleteUserSuccess(userId));
+            //return response;
+            //});
     }
 
     render() {
@@ -25,8 +32,8 @@ class AddPlayer extends React.Component {
         }
 
         return (
-            <form action={this.handleAddPlayer}>
-                <input type="text" name="playerName" value={this.state.playerName}/>
+            <form onSubmit={this.handleAddPlayer}>
+                <input type="text"  onChange={this.handleChange}/>
                 <input type="submit" value="Submit" />
             </form>
         );

@@ -8,7 +8,7 @@ const playerReducer = function(state = initialState, action) {
     
     switch(action.type) {
         case types.ADD_PLAYER:
-        return Object.assign({}, state, state.playersList.concat([{ player:action.player }]));
+        return Object.assign({}, state, state.playersList.concat([{ player:action.playerName }]));
     }
 
     return state;
