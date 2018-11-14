@@ -1,5 +1,5 @@
 import React from 'react';
-import AddPlayer from './Player';
+import AddPlayer from './HighScorePlayer';
 
 function GameInfo(props) {
     return (
