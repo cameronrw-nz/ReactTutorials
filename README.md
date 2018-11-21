@@ -6,11 +6,14 @@
 
 Every programmers first foray into coding a new language is this.
 
-### A Tic Tac Toe Game
+### Tic Tac Toe
 
 This started as a tutorial from the reactjs site (https://reactjs.org/tutorial/tutorial.html#setup-for-the-tutorial) then expanded to include the additional improvements.
 Once the additional improvements were complete I went on to add Players, High Scores and connect this to an external API (https://github.com/cameronrw-nz/ASPWebAPI).
-Basic Tic Tac Toe game. Can be found here: https://reactjs.org/tutorial/tutorial.html#setup-for-the-tutorial
+
+### MineSweeper
+
+As you guessed it, this is just a basic minesweeper game.
 
 ### Product View
 
@@ -18,8 +21,8 @@ This is for learning basic connection of react to an API and manipulating the re
 
 ### Internal Code Changes
 
-* React Redux
-* Date string that updates at regular Intervals
+* React Redux (https://css-tricks.com/learning-react-redux/)
+* Date string that updates every second displayed at the bottom of the screen.
 
 Installation Steps:
     1. Clone this Repo
