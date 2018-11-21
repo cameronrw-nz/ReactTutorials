@@ -1,14 +1,14 @@
 import * as types from '../ActionTypes'
 
 const initialState = {
-    playersList: []
+    players: []
 }
 
-const playerReducer = function(state = initialState, action) {
+function playerReducer(state = initialState, action) {
     
     switch(action.type) {
         case types.ADD_PLAYER:
-        return Object.assign({}, state, state.playersList.concat([{ player:action.playerName }]));
+            return Object.assign({}, state, state.players.concat([{ player:action.playerName }]));
     }
 
     return state;

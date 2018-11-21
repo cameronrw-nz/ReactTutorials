@@ -1,11 +1,10 @@
 import React from 'react';
 import GameInfo from './GameInfo';
 import GameBoard from './GameBoard';
-import { connect } from 'react-redux';
-import store from '../../Store/ReduxStore'
+import { Connect } from 'react-redux';
+import Store from '../../Store/ReduxStore'
 import '../../styles/TicTacToe.css';
 import * as types from '../../Store/ActionTypes'
-
 
 function calculateWinner(squares) {
     const lines = [
@@ -39,6 +38,7 @@ function calculateIndexChanged(currentSquares, previousSquares) {
     return -1;
 }
 
+// TODO remove the coupling between this TicTacToe and GameInfo
 class TicTacToe extends React.Component {
     constructor(props) {
         super(props);
@@ -60,7 +60,7 @@ class TicTacToe extends React.Component {
         }
 
         squares[i] = this.state.xIsNext ? 'X' : 'O';
-        store.dispatch({
+        Store.dispatch({
             type: types.ADD_SQUARES_TO_HISTORY,
             squares: squares,
             history: history
@@ -158,8 +158,8 @@ class TicTacToe extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-      history: store.historyState.history
+        history: store.historyState.history
     };
-  }
+}
 
-export default connect(mapStateToProps)(TicTacToe)
+export default Connect(mapStateToProps)(TicTacToe)

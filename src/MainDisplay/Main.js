@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './Home/Home'
 import TicTacToe from './TicTacToe/TicTacToe'
-import Product from './Product/Product'
+import Product from './Product/ProductController'
 import DateString from '../Common/DateString'
 import '../styles/index.css';
 

@@ -25,7 +25,7 @@ class GameBoard extends React.Component {
             let children = [];
 
             for (let column = 0; column < 3; column++) {
-                const squareIndex = row*3 + column;
+                const squareIndex = row * 3 + column;
                 let isHighlightedMove = squareIndex === this.props.changedIndex || (this.props.winningIndexes != null && this.props.winningIndexes.includes(squareIndex));
 
                 children.push(this.renderSquare(squareIndex, isHighlightedMove));
@@ -39,9 +39,9 @@ class GameBoard extends React.Component {
 
     render() {
         return (
-        <div className="game-board">
-            {this.createBoard()}
-        </div>
+            <div className="game-board">
+                {this.createBoard()}
+            </div>
         );
     }
 }
