@@ -11,7 +11,7 @@ function ProductRow(props) {
     );
 }
 
-function ProductPresentation(props) {
+function ProductView(props) {
     return (
     <div>
         <h1>My Products</h1>
@@ -31,7 +31,7 @@ function ProductPresentation(props) {
 }
     
   
-export default ProductPresentation
+export default ProductView
   
 
 

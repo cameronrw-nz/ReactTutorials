@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-import * as Types from '../../Store/ActionTypes'
-import Store from '../../Store/ReduxStore'
-import { Connect } from 'react-redux';
+import * as Types from '../../../Store/ActionTypes'
+import Store from '../../../Store/ReduxStore'
 import AddPlayer from "./Player";
 
 class AddHighScorePlayer extends AddPlayer {
@@ -19,10 +18,4 @@ class AddHighScorePlayer extends AddPlayer {
     }
 }
 
-const mapStateToProps = function(store) {
-    return {
-        highScores: store.highScoreState.highScores
-    };
-}
-
-export default Connect(mapStateToProps)(AddHighScorePlayer)
+export default AddHighScorePlayer

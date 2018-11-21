@@ -1,10 +1,12 @@
 import React from 'react';
-import GameInfo from './GameInfo';
-import GameBoard from './GameBoard';
-import { Connect } from 'react-redux';
+import { connect } from 'react-redux';
+
+import GameInfo from './Info/GameInfo';
+import GameBoard from './Game/GameBoard';
 import Store from '../../Store/ReduxStore'
-import '../../styles/TicTacToe.css';
 import * as types from '../../Store/ActionTypes'
+
+import '../../styles/TicTacToe.css';
 
 function calculateWinner(squares) {
     const lines = [
@@ -162,4 +164,4 @@ const mapStateToProps = function(store) {
     };
 }
 
-export default Connect(mapStateToProps)(TicTacToe)
+export default connect(mapStateToProps)(TicTacToe)

@@ -1,9 +1,11 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+
 import Home from './Home/Home'
 import TicTacToe from './TicTacToe/TicTacToe'
-import Product from './Product/ProductController'
+import Product from './Product/ProductComponent'
 import DateString from '../Common/DateString'
+
 import '../styles/index.css';
 
 const Main = () => (

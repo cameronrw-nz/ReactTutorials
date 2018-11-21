@@ -14,9 +14,9 @@ function historyReducer(state = initialState, action) {
                     squares: action.squares,
                 }]);
             return Object.assign({}, state, { history: newHistory });
+        default:
+            return state;
     }
-
-    return state;
 }
 
 export default historyReducer;

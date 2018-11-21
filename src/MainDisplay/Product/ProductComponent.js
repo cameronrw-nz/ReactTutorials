@@ -1,7 +1,8 @@
 import React from 'react';
-import ProductPresentation from './ProductPresentation'
 
-class Product extends React.Component {
+import ProductView from './ProductView'
+
+class ProductComponent extends React.Component {
     constructor(props) {
         super(props);
 
@@ -19,9 +20,9 @@ class Product extends React.Component {
 
     render() {
         return (
-            <ProductPresentation products={this.state.products} />
+            <ProductView products={this.state.products} />
         );
     }
 }
 
-export default Product
+export default ProductComponent

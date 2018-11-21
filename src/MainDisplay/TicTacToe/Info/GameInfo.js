@@ -1,5 +1,7 @@
 import React from 'react';
+
 import AddPlayer from './HighScorePlayer';
+import HighScoresComponent from './HighScoresComponent'
 
 // Function for returning the Game info section of the TicTacToe game, contains the current game history and HighScores.
 function GameInfo(props) {
@@ -11,6 +13,7 @@ function GameInfo(props) {
                 <ol>{props.moves}</ol>
                 <AddPlayer visibility={props.hasWinner}/>
             </div>
+            <HighScoresComponent />
         </div>
     );
 }

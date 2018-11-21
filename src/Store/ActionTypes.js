@@ -1,5 +1,6 @@
 //HighScore
 export const UPDATE_HIGHSCORES = 'UPDATE_HIGHSCORES';
+export const GET_HIGHSCORES = 'GET_HIGHSCORES';
 
 //History
 export const GET_HISTORY_SUCCESS = 'GET_HISTORY_SUCCESS';
