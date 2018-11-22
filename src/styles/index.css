@@ -1,4 +1,16 @@
-
 .mainContent {
-    margin-left: 20px;
+    width: 90%;
+    min-height: 100%;
+    padding-top: 10px;
+    margin: 0 auto;
+}
+
+.main {
+    min-height: 100%;
+    position: relative;
+}
+
+.date {
+    position: absolute;
+    bottom: 0;
 }

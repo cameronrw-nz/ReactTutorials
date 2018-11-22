@@ -1,5 +1,7 @@
 import React from 'react';
 
+import "../styles/index.css"
+
 class DateString extends React.Component {
     constructor(props) {
         super(props);
@@ -18,7 +20,7 @@ class DateString extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="date">
                 <p>{this.state.time}</p>
             </div>
           );
