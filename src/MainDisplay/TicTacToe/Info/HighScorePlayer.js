@@ -11,7 +11,7 @@ class AddHighScorePlayer extends AddPlayer {
             .then(response => {
                 Store.dispatch({
                     type: Types.UPDATE_HIGHSCORES,
-                    highScore: response,
+                    highScore: response.data,
                   });
             return response;
         });

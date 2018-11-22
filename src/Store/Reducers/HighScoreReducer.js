@@ -12,7 +12,7 @@ function highScoreReducer(state = initialState, action) {
         case types.UPDATE_HIGHSCORES:
             // Check if the new HighScore exists and update
             for (var i = 0; i < state.highScores.length; i++){
-                if (state.highScores[i].PlayerName === action.highScore.PlayerName)
+                if (state.highScores[i].PlayerUserName === action.highScore.PlayerUserName)
                 {
                     return Object.assign(
                         {}, 
@@ -22,7 +22,7 @@ function highScoreReducer(state = initialState, action) {
                             {[i]: Object.assign(
                                 {}, 
                                 state.highScores[i], 
-                                {count: action.highScore.Score})
+                                {Score: action.highScore.Score})
                             })
                         });
                 }
