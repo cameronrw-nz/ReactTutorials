@@ -1,6 +1,6 @@
 import React from 'react'
 
-import '../../styles/MineSweeper.css';
+import '../../Styles/MineSweeper.css';
 
 function Box(props) {
     return (

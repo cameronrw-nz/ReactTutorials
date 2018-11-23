@@ -1,6 +1,6 @@
 import React from 'react';
 
-import "../styles/index.css"
+import "../Styles/index.css"
 
 class DateString extends React.Component {
     constructor(props) {

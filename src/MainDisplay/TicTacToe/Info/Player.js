@@ -8,7 +8,7 @@ class AddPlayer extends React.Component {
         this.state = {
             playerName: ""
         }
-
+ 
         this.handleChange = this.handleChange.bind(this);
         this.handleAddPlayer = this.handleAddPlayer.bind(this);
     }
@@ -33,7 +33,7 @@ class AddPlayer extends React.Component {
 
         return (
             <form onSubmit={this.handleAddPlayer}>
-                <input type="text"  onChange={this.handleChange}/>
+                <input id="textInput" type="text" onChange={this.handleChange}/>
                 <input type="submit" value="Submit" />
             </form>
         );

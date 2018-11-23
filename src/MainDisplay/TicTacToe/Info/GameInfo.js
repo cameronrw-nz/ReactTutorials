@@ -6,7 +6,7 @@ import HighScoresComponent from './HighScoresComponent'
 // Function for returning the Game info section of the TicTacToe game, contains the current game history and HighScores.
 function GameInfo(props) {
     return (
-        <div>
+        <div className="horizontal-display">
             <div className="game-info">
                 <div>{props.status}</div>
                 <button onClick={props.onMoveSorting}>Sort</button>

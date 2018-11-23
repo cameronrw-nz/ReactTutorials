@@ -6,7 +6,7 @@ import GameBoard from './Game/GameBoard';
 import Store from '../../Store/ReduxStore'
 import * as types from '../../Store/ActionTypes'
 
-import '../../styles/TicTacToe.css';
+import '../../Styles/TicTacToe.css';
 
 function calculateWinner(squares) {
     const lines = [
@@ -140,7 +140,7 @@ class TicTacToe extends React.Component {
         return (
             <div>
                 <h1>Tic-Tac-Toe</h1>
-                <div className="game">
+                <div className="horizontal-display">
                     <GameBoard 
                         squares={current.squares}
                         onClick={(i) => this.handleClick(i)}

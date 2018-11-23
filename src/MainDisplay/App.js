@@ -5,7 +5,7 @@ import Main from './Main'
 import Navigator from './Navigator'
 import DateString from '../Common/DateString'
 
-import '../styles/index.css';
+import '../Styles/index.css';
 
 const App = () => (
     <BrowserRouter>

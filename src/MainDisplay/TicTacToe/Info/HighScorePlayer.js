@@ -7,13 +7,18 @@ import AddPlayer from "./Player";
 class AddHighScorePlayer extends AddPlayer {
     handleAddPlayer(event) {
         event.preventDefault()
-        return axios.put('http://localhost:59248/api/HighScore?userName=' + this.state.playerName)
+        axios.put('http://localhost:59248/api/HighScore?userName=' + this.state.playerName)
             .then(response => {
                 Store.dispatch({
                     type: Types.UPDATE_HIGHSCORES,
                     highScore: response.data,
                   });
-            return response;
+        });
+
+        var item = event.target.children.namedItem("textInput");
+        item.value = "";
+        this.setState({
+            playerName: ""
         });
     }
 }

@@ -44,11 +44,16 @@ li {
     background: #ddd;
 }
 
-.game {
+.horizontal-display {
     display: flex;
     flex-direction: row;
 }
 
 .game-info {
     margin-left: 20px;
+}
+
+.highscore-row {
+    display: flex;
+    flex-direction: row;
 }
