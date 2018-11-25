@@ -2,40 +2,118 @@ import React from 'react'
 
 import '../../Styles/MineSweeper.css';
 
-function Box(props) {
-    return (
-        <button className="square">
-            {props.content}
-        </button>
-    )
-}
-class MineSweeperBoard extends React.Component {
-    createBoard(boardSize, valueBoard) {
-        let board = [];
-
-        for (let row = 0; row < boardSize; row++) {
-            let children = [];
-
-            for (let column = 0; column < boardSize; column++) {
-                var content = valueBoard[row*boardSize+column];
-                if (content == null){
-                    content = "-"
-                }
-                children.push(<Box content={content} />);
-            }
-
-            board.push(<div className="board-row">{children}</div>);
+class Box extends React.Component {
+    render() {
+        let display;
+        if (this.props.isSelected)
+        {
+            display = (
+                <div className="selected">
+                    {this.props.content}
+                </div>
+            );
+        }
+        else {
+            display = (
+                <button className="minesweeper-square" onClick={this.props.onClick} />
+            );
         }
 
-        return board;
+        return display;
+    }
+}
+
+class MineSweeperBoard extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            board: [],
+            selectedIndexes: []
+        }
     }
 
-    render() {
-        var bombNumber = 1;
-        var boardSize = 10;
+    expandSelected(index, currentlySelected) {
+        // TODO Refactor this mess
+        // Left
+        if (index > 11 && index%10 !== 0 && !currentlySelected.includes(index-11)){
+            currentlySelected.push(index-11)
+            if (this.state.board[index-11] === null) {
+                currentlySelected = this.expandSelected(index-11, currentlySelected)
+            }
+        }
+        if (index%10 !== 0 && !currentlySelected.includes(index-1)){
+            currentlySelected.push(index-1)
+            if (this.state.board[index-1] === null) {
+                currentlySelected = this.expandSelected(index-1, currentlySelected)
+            }
+        }
+        if (index < 89 && index%10 !== 0 && !currentlySelected.includes(index+9)){
+            currentlySelected.push(index+9)
+            if (this.state.board[index+9] === null) {
+                currentlySelected = this.expandSelected(index+9, currentlySelected)
+            }
+        }
 
+        // Right
+        if (index > 9 && index%10 !== 9 && !currentlySelected.includes(index-9)){
+            currentlySelected.push(index-9)
+            if (this.state.board[index-9] === null) {
+                currentlySelected = this.expandSelected(index-9, currentlySelected)
+            }
+        }
+        if (index%10 !== 9 && !currentlySelected.includes(index+1)){
+            currentlySelected.push(index+1)
+            if (this.state.board[index+1] === null) {
+                currentlySelected = this.expandSelected(index+1, currentlySelected)
+            }
+        }
+        if (index < 89 && index%10 !== 9 && !currentlySelected.includes(index+11)){
+            currentlySelected.push(index+11)
+            if (this.state.board[index+11] === null) {
+                currentlySelected = this.expandSelected(index+11, currentlySelected)
+            }
+        }
+
+        // Top
+        if (index > 11 && !currentlySelected.includes(index-10)){
+            currentlySelected.push(index-10)
+            if (this.state.board[index-10] === null) {
+                currentlySelected = this.expandSelected(index-10, currentlySelected)
+            }
+        }
+
+        // Bottom
+        if (index > 11 && index%10 !== 0 && !currentlySelected.includes(index+10)){
+            currentlySelected.push(index+10)
+            if (this.state.board[index+10] === null) {
+                currentlySelected = this.expandSelected(index+10, currentlySelected)
+            }
+        }
+
+        return currentlySelected;
+    }
+
+    handleClick(index) {
+        const newSelectedIndexes = this.state.selectedIndexes.slice();
+        newSelectedIndexes.push(index);
+
+        if (this.state.board[index] == null){
+            const returnedValue = this.expandSelected(index, newSelectedIndexes);
+            this.setState({
+                selectedIndexes: returnedValue
+            });
+        }
+        else {
+            this.setState({
+                selectedIndexes: newSelectedIndexes
+            });
+        }
+    }
+
+    initiliseBoard(bombNumber, boardSize) {
         var board = Array(Math.pow(boardSize, 2)).fill(null);
-        
+
         var currentBombNumber = 0;
         while (currentBombNumber < bombNumber) {
             var bombIndex = Math.floor(Math.random()*boardSize*boardSize);
@@ -63,9 +141,47 @@ class MineSweeperBoard extends React.Component {
             }
         }
 
+        this.setState({
+            board: board
+        });
+    }
+
+    createBoard(boardSize) {
+        let board = [];
+
+        for (let row = 0; row < boardSize; row++) {
+            let children = [];
+
+            for (let column = 0; column < boardSize; column++) {
+                const currentIndex = row*boardSize+column;
+                var content = this.state.board[currentIndex];
+                if (content == null){
+                    content = "-";
+                }
+
+                children.push(<Box  
+                                content={content}
+                                onClick={() => this.handleClick(currentIndex)}
+                                isSelected={this.state.selectedIndexes.includes(currentIndex)} />);
+            }
+
+            board.push(<div className="board-row">{children}</div>);
+        }
+
+        return board;
+    }
+
+    render() {
+        var bombNumber = 5;
+        var boardSize = 10;
+
+        if (this.state.board.length == 0){
+            this.initiliseBoard(bombNumber, boardSize);
+        }
+
         return (
             <div>
-                {this.createBoard(boardSize, board)}
+                {this.createBoard(boardSize)}
             </div>
         )
     }
