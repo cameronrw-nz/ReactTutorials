@@ -1,3 +1,6 @@
+.minesweeper-div {
+    display: flex;
+}
 
 .minesweeper-square {
     background: #666;

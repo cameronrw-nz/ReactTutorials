@@ -1,6 +1,7 @@
 import React from 'react'
 
-import '../../Styles/MineSweeper.css';
+import Store from '../../Store/ReduxStore'
+import * as Types from '../../Store/ActionTypes'
 
 class Box extends React.Component {
     render() {
@@ -29,14 +30,14 @@ class MineSweeperBoard extends React.Component {
 
         this.state = {
             board: [],
-            selectedIndexes: []
+            selectedIndexes: [],
         }
     }
 
     expandSelected(index, currentlySelected) {
         // TODO Refactor this mess
         // Left
-        if (index > 11 && index%10 !== 0 && !currentlySelected.includes(index-11)){
+        if (index > 9 && index%10 !== 0 && !currentlySelected.includes(index-11)){
             currentlySelected.push(index-11)
             if (this.state.board[index-11] === null) {
                 currentlySelected = this.expandSelected(index-11, currentlySelected)
@@ -76,7 +77,7 @@ class MineSweeperBoard extends React.Component {
         }
 
         // Top
-        if (index > 11 && !currentlySelected.includes(index-10)){
+        if (index > 9 && !currentlySelected.includes(index-10)){
             currentlySelected.push(index-10)
             if (this.state.board[index-10] === null) {
                 currentlySelected = this.expandSelected(index-10, currentlySelected)
@@ -84,7 +85,7 @@ class MineSweeperBoard extends React.Component {
         }
 
         // Bottom
-        if (index > 11 && index%10 !== 0 && !currentlySelected.includes(index+10)){
+        if (index < 89 && !currentlySelected.includes(index+10)){
             currentlySelected.push(index+10)
             if (this.state.board[index+10] === null) {
                 currentlySelected = this.expandSelected(index+10, currentlySelected)
@@ -95,28 +96,39 @@ class MineSweeperBoard extends React.Component {
     }
 
     handleClick(index) {
-        const newSelectedIndexes = this.state.selectedIndexes.slice();
+        var newSelectedIndexes = this.state.selectedIndexes.slice();
         newSelectedIndexes.push(index);
 
         if (this.state.board[index] == null){
-            const returnedValue = this.expandSelected(index, newSelectedIndexes);
-            this.setState({
-                selectedIndexes: returnedValue
-            });
+            newSelectedIndexes = this.expandSelected(index, newSelectedIndexes);
         }
-        else {
-            this.setState({
-                selectedIndexes: newSelectedIndexes
-            });
+
+        if (this.state.board[index] === "B")
+        {
+            Store.dispatch({
+                type: Types.UPDATE_GAME_STATE,
+                gameState: "You Lose"
+              });
         }
+        else if ((Math.pow(this.props.boardSize, 2) - newSelectedIndexes.length) === this.props.bombNumber)
+        {
+            Store.dispatch({
+                type: Types.UPDATE_GAME_STATE,
+                gameState: "You Win"
+              });
+        }
+
+        this.setState({
+            selectedIndexes: newSelectedIndexes
+        });
     }
 
-    initiliseBoard(bombNumber, boardSize) {
-        var board = Array(Math.pow(boardSize, 2)).fill(null);
+    initiliseBoard() {
+        var board = Array(Math.pow(this.props.boardSize, 2)).fill(null);
 
         var currentBombNumber = 0;
-        while (currentBombNumber < bombNumber) {
-            var bombIndex = Math.floor(Math.random()*boardSize*boardSize);
+        while (currentBombNumber < this.props.bombNumber) {
+            var bombIndex = Math.floor(Math.random() * this.props.boardSize * this.props.boardSize);
             if (board[bombIndex] === null) {
                 board[bombIndex] = "B";
                 currentBombNumber++;
@@ -146,14 +158,14 @@ class MineSweeperBoard extends React.Component {
         });
     }
 
-    createBoard(boardSize) {
+    createBoard() {
         let board = [];
 
-        for (let row = 0; row < boardSize; row++) {
+        for (let row = 0; row < this.props.boardSize; row++) {
             let children = [];
 
-            for (let column = 0; column < boardSize; column++) {
-                const currentIndex = row*boardSize+column;
+            for (let column = 0; column < this.props.boardSize; column++) {
+                const currentIndex = row * this.props.boardSize + column;
                 var content = this.state.board[currentIndex];
                 if (content == null){
                     content = "-";
@@ -172,16 +184,13 @@ class MineSweeperBoard extends React.Component {
     }
 
     render() {
-        var bombNumber = 5;
-        var boardSize = 10;
-
         if (this.state.board.length == 0){
-            this.initiliseBoard(bombNumber, boardSize);
+            this.initiliseBoard();
         }
 
         return (
             <div>
-                {this.createBoard(boardSize)}
+                {this.createBoard()}
             </div>
         )
     }
