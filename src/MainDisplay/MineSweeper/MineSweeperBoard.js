@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import Store from '../../Store/ReduxStore'
 import * as Types from '../../Store/ActionTypes'
@@ -14,9 +15,14 @@ class Box extends React.Component {
                 </div>
             );
         }
+        else if (this.props.isFlagged){
+            display = (
+                <button className="minesweeper-square-flag" onContextMenu={(event) => this.props.onDoubleClick(event, this.props.index)}/>
+            )
+        } 
         else {
             display = (
-                <button className="minesweeper-square" onClick={this.props.onClick} />
+                <button className="minesweeper-square" onClick={this.props.onClick} onContextMenu={(event) => this.props.onDoubleClick(event, this.props.index)} />
             );
         }
 
@@ -31,64 +37,70 @@ class MineSweeperBoard extends React.Component {
         this.state = {
             board: [],
             selectedIndexes: [],
+            flaggedIndexes: [],
+            gameIteration: 0
         }
+
+        this.handleDoubleClick = this.handleDoubleClick.bind(this);
     }
 
     expandSelected(index, currentlySelected) {
+        const size = this.props.boardSize;
+
         // TODO Refactor this mess
         // Left
-        if (index > 9 && index%10 !== 0 && !currentlySelected.includes(index-11)){
-            currentlySelected.push(index-11)
-            if (this.state.board[index-11] === null) {
-                currentlySelected = this.expandSelected(index-11, currentlySelected)
+        if (index > size-1 && index%size !== 0 && !currentlySelected.includes(index-size-1)){
+            currentlySelected.push(index-size-1)
+            if (this.state.board[index-size-1] === null) {
+                currentlySelected = this.expandSelected(index-size-1, currentlySelected)
             }
         }
-        if (index%10 !== 0 && !currentlySelected.includes(index-1)){
+        if (index%size !== 0 && !currentlySelected.includes(index-1)){
             currentlySelected.push(index-1)
             if (this.state.board[index-1] === null) {
                 currentlySelected = this.expandSelected(index-1, currentlySelected)
             }
         }
-        if (index < 89 && index%10 !== 0 && !currentlySelected.includes(index+9)){
-            currentlySelected.push(index+9)
-            if (this.state.board[index+9] === null) {
-                currentlySelected = this.expandSelected(index+9, currentlySelected)
+        if (index < Math.pow(size, 2)-size-1 && index%size !== 0 && !currentlySelected.includes(index+size-1)){
+            currentlySelected.push(index+size-1)
+            if (this.state.board[index+size-1] === null) {
+                currentlySelected = this.expandSelected(index+size-1, currentlySelected)
             }
         }
 
         // Right
-        if (index > 9 && index%10 !== 9 && !currentlySelected.includes(index-9)){
-            currentlySelected.push(index-9)
-            if (this.state.board[index-9] === null) {
-                currentlySelected = this.expandSelected(index-9, currentlySelected)
+        if (index > size-1 && index%size !== size-1 && !currentlySelected.includes(index-size+1)){
+            currentlySelected.push(index-size+1)
+            if (this.state.board[index-size+1] === null) {
+                currentlySelected = this.expandSelected(index-size+1, currentlySelected)
             }
         }
-        if (index%10 !== 9 && !currentlySelected.includes(index+1)){
+        if (index%size !== size-1 && !currentlySelected.includes(index+1)){
             currentlySelected.push(index+1)
             if (this.state.board[index+1] === null) {
                 currentlySelected = this.expandSelected(index+1, currentlySelected)
             }
         }
-        if (index < 89 && index%10 !== 9 && !currentlySelected.includes(index+11)){
-            currentlySelected.push(index+11)
-            if (this.state.board[index+11] === null) {
-                currentlySelected = this.expandSelected(index+11, currentlySelected)
+        if (index < Math.pow(size, 2)-size-1 && index%size !== size-1 && !currentlySelected.includes(index+size+1)){
+            currentlySelected.push(index+size+1)
+            if (this.state.board[index+size+1] === null) {
+                currentlySelected = this.expandSelected(index+size+1, currentlySelected)
             }
         }
 
         // Top
-        if (index > 9 && !currentlySelected.includes(index-10)){
-            currentlySelected.push(index-10)
-            if (this.state.board[index-10] === null) {
-                currentlySelected = this.expandSelected(index-10, currentlySelected)
+        if (index > size-1 && !currentlySelected.includes(index-size)){
+            currentlySelected.push(index-size)
+            if (this.state.board[index-size] === null) {
+                currentlySelected = this.expandSelected(index-size, currentlySelected)
             }
         }
 
         // Bottom
-        if (index < 89 && !currentlySelected.includes(index+10)){
-            currentlySelected.push(index+10)
-            if (this.state.board[index+10] === null) {
-                currentlySelected = this.expandSelected(index+10, currentlySelected)
+        if (index < Math.pow(size, 2)-size-1 && !currentlySelected.includes(index+size)){
+            currentlySelected.push(index+size)
+            if (this.state.board[index+size] === null) {
+                currentlySelected = this.expandSelected(index+size, currentlySelected)
             }
         }
 
@@ -123,6 +135,26 @@ class MineSweeperBoard extends React.Component {
         });
     }
 
+    handleDoubleClick(event, index) {
+        event.preventDefault();
+        var flaggedIndexes = this.state.flaggedIndexes;
+        
+        if (flaggedIndexes.includes(index)){
+            flaggedIndexes.splice(
+                flaggedIndexes.findIndex(function(element) {
+                    return element === index
+                })
+            , 1);
+        }
+        else {
+            flaggedIndexes.push(index)
+        }
+
+        this.setState({
+            flaggedIndexes: flaggedIndexes
+        })
+    }
+
     initiliseBoard() {
         var board = Array(Math.pow(this.props.boardSize, 2)).fill(null);
 
@@ -137,19 +169,21 @@ class MineSweeperBoard extends React.Component {
 
         for (var i = 0; i < board.length; i++) {
             if (board[i] === "B"){
+                const size = this.props.boardSize;
+
                 // TODO Refactor this to clean up reusable parts
                 // Left
-                i < 11 || i%10 === 0 || board[i-11] === "B" ? null : board[i-11] != null ? board[i-11]++ : board[i-11] = 1;
-                i%10 === 0 || board[i-1] === "B" ? null : board[i-1] != null ? board[i-1]++ : board[i-1] = 1;
-                i > 89 || i%10 === 0|| board[i+9] === "B" ? null : board[i+9] != null ? board[i+9]++ : board[i+9] = 1;
+                i < size+1 || i%size === 0 || board[i-size-1] === "B" ? null : board[i-size-1] != null ? board[i-size-1]++ : board[i-size-1] = 1;
+                i%size === 0 || board[i-1] === "B" ? null : board[i-1] != null ? board[i-1]++ : board[i-1] = 1;
+                i > Math.pow(size, 2)-size-1 || i%size === 0|| board[i+size-1] === "B" ? null : board[i+size-1] != null ? board[i+size-1]++ : board[i+size-1] = 1;
                 // Right
-                i < 11 || i%10 === 9 || board[i-9] === "B" ? null : board[i-9] != null ? board[i-9]++ : board[i-9] = 1;
-                i%10 === 9 || board[i+1] === "B" ? null : board[i+1] != null ? board[i+1]++ : board[i+1] = 1;
-                i > 89 || i%10 === 9 || board[i+11] === "B" ? null : board[i+1] != null ? board[i+11]++ : board[i+1] = 1;
+                i < size+1 || i%size === size-1 || board[i-size+1] === "B" ? null : board[i-size+1] != null ? board[i-size+1]++ : board[i-size+1] = 1;
+                i%size === size-1 || board[i+1] === "B" ? null : board[i+1] != null ? board[i+1]++ : board[i+1] = 1;
+                i > Math.pow(size, 2)-size-1 || i%size === size-1 || board[i+size+1] === "B" ? null : board[i+size+1] != null ? board[i+size+1]++ : board[i+size+1] = 1;
                 // Top
-                i < 11 || board[i-10] === "B" ? null : board[i-10] != null ? board[i-10]++ : board[i-10] = 1;
+                i < size+1 || board[i-size] === "B" ? null : board[i-size] != null ? board[i-size]++ : board[i-size] = 1;
                 // Bottom
-                i > 89 || board[i+10] === "B"  ? null : board[i+10] != null ? board[i+10]++ : board[i+10] = 1;
+                i > Math.pow(size, 2)-size-1 || board[i+size] === "B"  ? null : board[i+size] != null ? board[i+size]++ : board[i+size] = 1;
             }
         }
 
@@ -160,6 +194,7 @@ class MineSweeperBoard extends React.Component {
 
     createBoard() {
         let board = [];
+        var flaggedIndexes = this.state.flaggedIndexes;
 
         for (let row = 0; row < this.props.boardSize; row++) {
             let children = [];
@@ -173,8 +208,11 @@ class MineSweeperBoard extends React.Component {
 
                 children.push(<Box  
                                 content={content}
+                                index={currentIndex}
                                 onClick={() => this.handleClick(currentIndex)}
-                                isSelected={this.state.selectedIndexes.includes(currentIndex)} />);
+                                onDoubleClick={this.handleDoubleClick}
+                                isSelected={this.state.selectedIndexes.includes(currentIndex)}
+                                isFlagged={flaggedIndexes.includes(currentIndex)} />);
             }
 
             board.push(<div className="board-row">{children}</div>);
@@ -184,7 +222,22 @@ class MineSweeperBoard extends React.Component {
     }
 
     render() {
-        if (this.state.board.length == 0){
+        if (this.props.boardSize === 0) {
+            return (
+                <div />
+            )
+        }
+        
+        if (this.props.gameIteration !== this.state.gameIteration) {
+            this.setState({
+                board: [],
+                selectedIndexes: [],
+                flaggedIndexes: [],
+                gameIteration: this.props.gameIteration
+            })
+        }
+
+        if (this.state.board.length === 0){
             this.initiliseBoard();
         }
 
@@ -196,4 +249,12 @@ class MineSweeperBoard extends React.Component {
     }
 }
 
-export default MineSweeperBoard
+const mapStateToProps = function(store) {
+    return {
+        bombNumber: store.mineSweeperState.bombNumber,
+        boardSize: store.mineSweeperState.boardSize,
+        gameIteration: store.mineSweeperState.gameIteration
+    };
+}
+
+export default connect(mapStateToProps)(MineSweeperBoard)

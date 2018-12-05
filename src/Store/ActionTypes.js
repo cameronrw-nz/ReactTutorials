@@ -11,4 +11,6 @@ export const GET_PLAYER_SUCCESS = 'GET_PLAYER_SUCCESS';
 export const ADD_PLAYER_SUCCESS = 'ADD_PLAYER';
 
 // MineSweeper
-export const UPDATE_GAME_STATE = 'UPDATE_GAME_STATE'
+export const UPDATE_GAME_STATE = 'UPDATE_GAME_STATE';
+export const UPDATE_BOARD = 'UPDATE_BOARD';
+export const RESET_GAME = 'RESET_GAME';

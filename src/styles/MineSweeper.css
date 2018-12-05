@@ -1,6 +1,26 @@
 .minesweeper-div {
     display: flex;
+    margin-top: 16px;
 }
+
+.minesweeper-header button {
+    margin-right: 8px;
+}
+
+.minesweeper-square-flag {
+    background: red;
+    border: 1px solid #333;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 34px;
+}    
 
 .minesweeper-square {
     background: #666;
@@ -15,9 +35,7 @@
     padding: 0;
     text-align: center;
     width: 34px;
-    
 }
-
 
 .selected {
     background: #fff;

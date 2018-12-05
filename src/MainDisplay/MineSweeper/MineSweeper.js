@@ -1,5 +1,6 @@
 import React from 'react';
 
+import MineSweeperSettings from './MineSweeperSettings'
 import MineSweeperBoard from './MineSweeperBoard'
 import MineSweeperInfo from './MineSweeperInfo'
 
@@ -10,8 +11,9 @@ class MineSweeper extends React.Component {
         return (
             <div>
                 <h1>MineSweeper</h1>
+                <MineSweeperSettings />
                 <div className="minesweeper-div">
-                    <MineSweeperBoard bombNumber={5} boardSize={10} />
+                    <MineSweeperBoard />
                     <MineSweeperInfo />
                 </div>
             </div>
