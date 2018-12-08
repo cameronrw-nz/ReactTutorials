@@ -203,7 +203,7 @@ class MineSweeperBoard extends React.Component {
                 const currentIndex = row * this.props.boardSize + column;
                 var content = this.state.board[currentIndex];
                 if (content == null){
-                    content = "-";
+                    content = "";
                 }
 
                 children.push(<Box  

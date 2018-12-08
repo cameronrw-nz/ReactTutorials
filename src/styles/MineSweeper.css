@@ -3,8 +3,16 @@
     margin-top: 16px;
 }
 
+.minesweeper-header {
+    display : flex;
+}
+
 .minesweeper-header button {
     margin-right: 8px;
+}
+
+.minesweeper-timer {
+    padding-top: 4px;
 }
 
 .minesweeper-square-flag {
