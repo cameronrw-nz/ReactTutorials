@@ -2,6 +2,7 @@
   "name": "mp-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://cameronrw-nz.github.io/ReactTutorials/",
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.3",
