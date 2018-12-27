@@ -12,7 +12,7 @@ function secondsToHms(time) {
 
     var hoursDisplay = hours > 0 ? hours : "";
     var minutesDisplay = minutes > 0 ? minutes : "";
-    return hoursDisplay + minutesDisplay + seconds; 
+    return hoursDisplay + ":" + minutesDisplay + ":" + seconds; 
 }
 
 class MineSweeperSettings extends React.Component {
