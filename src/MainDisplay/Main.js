@@ -5,6 +5,7 @@ import Home from './Home/Home'
 import TicTacToe from './TicTacToe/TicTacToe'
 import MineSweeper from './MineSweeper/MineSweeper'
 import Product from './Product/ProductComponent'
+import Reddit from './Reddit/RedditController'
 
 import * as RoutingConstants from '../Common/RoutingConstants'
 
@@ -16,6 +17,7 @@ const Main = () => (
                 <Route path={RoutingConstants.TICTACTOE} component={TicTacToe} />
                 <Route path={RoutingConstants.MINESWEEPER} component={MineSweeper} />
                 <Route path={RoutingConstants.PRODUCT} component={Product} />
+                <Route path={RoutingConstants.REDDIT} component={Reddit} />
             </Switch>
         </main>
     </div>

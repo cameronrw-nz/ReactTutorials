@@ -22,6 +22,9 @@ class Navigator extends React.Component {
         <NavItem className="nav-item nav-link" eventKey="1" href={RoutingConstants.PRODUCT}>
           Product
         </NavItem>
+        <NavItem className="nav-item nav-link" eventKey="1" href={RoutingConstants.REDDIT}>
+          Reddit
+        </NavItem>
       </Nav>
     );
   }
