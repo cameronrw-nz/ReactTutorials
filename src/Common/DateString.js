@@ -1,7 +1,5 @@
 import React from 'react';
 
-import "../Styles/index.css"
-
 class DateString extends React.Component {
     constructor(props) {
         super(props);
@@ -12,18 +10,18 @@ class DateString extends React.Component {
     }
     componentDidMount() {
         this.interval = setInterval(() => this.setState({ time: Date().toLocaleString() }), 1000);
-      }
+    }
 
     componentWillUnmount() {
         clearInterval(this.interval);
-      }
+    }
 
     render() {
         return (
             <div className="date">
                 <p>{this.state.time}</p>
             </div>
-          );
+        );
     }
 }
 
