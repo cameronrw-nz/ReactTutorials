@@ -5,3 +5,4 @@ export const MINESWEEPER = "/MineSweeper";
 export const PRODUCT = "/Product";
 export const REDDIT = "/Reddit";
 export const THEME = "/Theme";
+export const CHARTS = "/Charts";

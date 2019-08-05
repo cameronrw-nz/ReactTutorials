@@ -52,6 +52,13 @@ class Navigator extends React.Component {
                 >
                     Theme
                 </NavItem>
+                <NavItem
+                    className="nav-item nav-link"
+                    eventKey="1"
+                    href={RoutingConstants.CHARTS}
+                >
+                    Charts
+                </NavItem>
             </Nav>
         );
     }

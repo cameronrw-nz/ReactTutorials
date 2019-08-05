@@ -7,6 +7,7 @@ import MineSweeper from "./MineSweeper/MineSweeper";
 import Product from "./Product/ProductComponent";
 import Reddit from "./Reddit/RedditController";
 import Theme from "./Theme/Theme";
+import Charts from "./Chart/Charts";
 
 import * as RoutingConstants from "../Common/RoutingConstants";
 
@@ -26,6 +27,7 @@ const Main = () => (
                 <Route path={RoutingConstants.PRODUCT} component={Product} />
                 <Route path={RoutingConstants.REDDIT} component={Reddit} />
                 <Route path={RoutingConstants.THEME} component={Theme} />
+                <Route path={RoutingConstants.CHARTS} component={Charts} />
             </Switch>
         </main>
     </div>
